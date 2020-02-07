@@ -1,6 +1,7 @@
 version: '3'
 
 services:
+
   clin-api:
     image: clin-api
     container_name: clin-api
@@ -28,6 +29,7 @@ services:
     hostname: rabbitmq_server
     ports:
       - "8080:15672"
+      - "5672:5672"
     network_mode: "bridge"
     environment:
       - RABBITMQ_ERLANG_COOKIE=123456
