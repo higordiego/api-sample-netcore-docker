@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  clin-api:
+    image: clin-api
+    container_name: clin-api
+    build:
+      context: .
+    ports:
+      - "4000:80"
+    depends_on:
+      - sql_server
+      - rabbitmq_server
+
+  sql_server:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: sql_server
+    ports:
+      - "1433:1433"
+    environment:
+        SA_PASSWORD: "123456"
+        ACCEPT_EULA: "Y"
+
+
+  rabbitmq_server:
+    image: rabbitmq:3-management
+    container_name: rabbitmq_server
+    hostname: rabbitmq_server
+    ports:
+      - "8080:15672"
+    network_mode: "bridge"
+    environment:
+      - RABBITMQ_ERLANG_COOKIE=123456
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=123456

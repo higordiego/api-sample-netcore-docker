@@ -1,20 +1,12 @@
-# Stage 1
+# Stage 1 sdk
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS build
 WORKDIR /build
 COPY . .
 RUN dotnet restore
 RUN dotnet publish -c Release -o /app
-# Stage 2
+# Stage 2 aspnet
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS final
 WORKDIR /app
 COPY --from=build /app .
+EXPOSE 80/tcp
 ENTRYPOINT ["dotnet", "project-docker-api.dll"]
-
-
-
-
-# docker run -e message="hello world" -p 8080:5001 clin-api
-
-# docker run -p 8080:5001 clin-api -tag test
-
-# docker run  -p 8080:80 demo
